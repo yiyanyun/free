@@ -1,0 +1,104 @@
+<!--
+ * @Author: Lucifer
+ * @Date: 2022-04-02 16:34:03
+ * @LastEditTime: 2022-04-02 16:55:37
+ * @FilePath: \yiyanyun\app\admin\view\agentedit.html
+-->
+{include file='public/header'/}
+
+<main class="lyear-layout-content">
+
+    <div class="container-fluid p-t-15">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">代理管理</a></li>
+                <li class="breadcrumb-item"><a href="/admin/user">代理列表</a></li>
+                <li class="breadcrumb-item active" aria-current="page">代理编辑</li>
+            </ol>
+        </nav>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="media">
+                            <!-- <img src="/static/images/users/avatar.jpg" alt="..." style="width: 100px;" class="img-avatar mr-3"> -->
+                            <div class="media-body">
+                                <p class="mt-1 mb-0">代理ID：{$id}</p>
+                                <p class="mt-1 mb-0">余额：{$balance}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <form method="" action="#!" class="site-form">
+                            <div class="form-group">
+                                <label for="nickname">余额</label>
+                                <input type="text" class="form-control" name="nickname" id="balance"
+                                    placeholder="" value="{$balance}">
+                            </div>
+                            <div class="form-group">
+                                <label for="nickname">天卡</label>
+                                <input type="text" class="form-control" name="nickname" id="day"
+                                    placeholder="" value="{$day}">
+                            </div>
+                            <div class="form-group">
+                                <label for="nickname">周卡</label>
+                                <input type="text" class="form-control" name="nickname" id="zhou"
+                                    placeholder="" value="{$zhou}">
+                            </div>
+                            <div class="form-group">
+                                <label for="nickname">月卡</label>
+                                <input type="text" class="form-control" name="nickname" id="month"
+                                    placeholder="" value="{$month}">
+                            </div>
+                            <div class="form-group">
+                                <label for="nickname">年卡</label>
+                                <input type="text" class="form-control" name="nickname" id="year"
+                                    placeholder="" value="{$year}">
+                            </div>
+                            <div class="form-group">
+                                <label for="nickname">永久</label>
+                                <input type="text" class="form-control" name="nickname" id="permanent"
+                                    placeholder="未保存有昵称" value="{$permanent}">
+                            </div>
+                            <button type="button" onclick="agents()" class="btn btn-outline-yellow btn-block">保存</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{include file='public/footer'/}
+<script type="text/javascript" src="/static/js/jquery-confirm/jquery-confirm.min.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap-table/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+
+<script>
+    function agents() {
+        id = {$id};
+        balance = $("#balance").val();
+        day = $("#day").val();
+        zhou = $("#zhou").val();
+        month = $("#month").val();
+        year = $("#year").val();
+        permanent = $("#permanent").val();
+        $.post("{:url('/admin/agent/edits')}", { 
+            balance: balance, 
+            id: id, 
+            day: day, 
+            permanent:permanent,
+            zhou:zhou,
+            month:month,
+            year:month,
+            }, function (res) {
+        if (res.code == 200) {
+            showNotify(res.msg, 'success');
+            setTimeout("location.href='/admin/index'", 3000);
+        } else {
+            showNotify(res.msg, 'danger');
+        }
+        }, 'json')
+    }
+</script>

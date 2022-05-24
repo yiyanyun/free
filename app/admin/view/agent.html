@@ -1,0 +1,218 @@
+{include file='public/header'/}
+<main class="lyear-layout-content">
+    <div class="container-fluid p-t-15">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <header class="card-header">
+                        <div class="card-title">代理列表列表</div>
+                    </header>
+                    <div class="card-body">
+                        <p>代理需要通过您的特定链接才能登录使用，与管理员登录地址不同，默认地址：http://域名/agent,默认添加成功后是处于禁用状态</p>
+                        <div id="toolbar" class="toolbar-btn-action">
+                            <button type="button" class="btn btn-outline-purple" data-toggle="modal"
+                                data-target="#exampleModal">
+                                添加
+                            </button>
+                            <button id="btn_edit" type="button" onclick="qstatus()" class="btn btn-success m-r-5">
+                                <span class="mdi mdi-check" aria-hidden="true"></span>启用
+                            </button>
+                            <button id="btn_edit" type="button" onclick="jstatus()" class="btn btn-warning m-r-5">
+                                <span class="mdi mdi-block-helper" aria-hidden="true"></span>禁用
+                            </button>
+                            <button id="btn_delete" type="button" onclick="del()" class="btn btn-danger">
+                                <span class="mdi mdi-window-close" aria-hidden="true"></span>删除
+                            </button>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="check-all">
+                                                <label class="custom-control-label" for="check-all"></label>
+                                            </div>
+                                        </th>
+                                        <th>代理ID</th>
+                                        <th>代理用户</th>
+                                        <th>添加时间</th>
+                                        <th>状态</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {volist name='list' id='code'}
+                                    <tr>
+                                        <td>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input ids" name="ids[]"
+                                                    value="{$code.id}" id="ids-{$code.id}">
+                                                <label class="custom-control-label" for="ids-{$code.id}"></label>
+                                            </div>
+                                        </td>
+                                        <td>{$code.id}</td>
+                                        <td>{$code.user}</td>
+                                        <td>{$code.time}</td>
+                                        <td>{if $code.status == 'y'}正常{else}禁用{/if}</td>
+                                    </tr>
+                                    {/volist}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel">添加代理</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">代理账号:</label>
+                    <input type="text" class="form-control" name="user" id="recipient-name">
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">代理密码:</label>
+                    <input type="text" class="form-control" name="password" id="recipient-name">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" onclick="agent()" class="btn btn-primary">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+{include file='public/footer'/}
+<script type="text/javascript" src="/static/js/jquery-confirm/jquery-confirm.min.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap-table/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript">
+    function del() {
+        var id_array = new Array();
+        $("input[name='ids[]']:checked").each(function () {
+            id_array.push($(this).val());
+        });
+        var url = window.location.href;
+        let t = window.jQuery;
+        if (id_array.length <= 0) {
+            showNotify('请选择数据', 'danger');
+            return false;
+        }
+        $("#qstatus").attr("disabled", true).css("pointer-events", "none");
+        console.log(id_array);
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "agent/del",
+            data: {
+                id: id_array
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == 200) {
+                    showNotify(data.msg, 'success');
+                } else {
+                    showNotify(data.msg, 'danger');
+                }
+                // window.setTimeout("window.location='" + url + "'", 1000);
+            }
+        });
+        return false;
+    }
+    function qstatus() {
+        var id_array = new Array();
+        $("input[name='ids[]']:checked").each(function () {
+            id_array.push($(this).val());
+        });
+        var url = window.location.href;
+        let t = window.jQuery;
+        if (id_array.length <= 0) {
+            showNotify('请选择数据', 'danger');
+            return false;
+        }
+        $("#qstatus").attr("disabled", true).css("pointer-events", "none");
+        console.log(id_array);
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "agent/qstatus",
+            data: {
+                id: id_array
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == 200) {
+                    showNotify(data.msg, 'success');
+                } else {
+                    showNotify(data.msg, 'danger');
+                }
+                // window.setTimeout("window.location='" + url + "'", 1000);
+            }
+        });
+        return false;
+    }
+    function jstatus() {
+        var id_array = new Array();
+        $("input[name='ids[]']:checked").each(function () {
+            id_array.push($(this).val());
+        });
+        var url = window.location.href;
+        let t = window.jQuery;
+        if (id_array.length <= 0) {
+            showNotify('请选择数据', 'danger');
+            return false;
+        }
+        $("#qstatus").attr("disabled", true).css("pointer-events", "none");
+        console.log(id_array);
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "agent/jstatus",
+            data: {
+                id: id_array
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == 200) {
+                    showNotify(data.msg, 'success');
+                } else {
+                    showNotify(data.msg, 'danger');
+                }
+                // window.setTimeout("window.location='" + url + "'", 1000);
+            }
+        });
+        return false;
+    }
+
+    function agent() {
+        var user = $("input[name='user']").val();//1
+        var password = $("input[name='password']").val();//1
+        var balance = $("input[name='balance']").val();//1
+        var pid = $("select[name='pid']").val();//1
+        $.post("{:url('add')}", {
+            user: user,
+            password: password,
+            balance: balance,
+            pid: pid
+        }, function (res) {
+            if (res.code == 200) {
+                showNotify('添加成功~', 'success');
+            } else {
+                showNotify(res.msg, 'danger');
+            }
+        }, 'json')
+    }
+</script>

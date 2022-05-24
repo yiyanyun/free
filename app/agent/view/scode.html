@@ -1,0 +1,182 @@
+{include file='public/header'/}
+<main class="lyear-layout-content">
+
+    <div class="container-fluid p-t-15">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-toolbar d-flex flex-column flex-md-row">
+                        <div class="toolbar-btn-action">
+                            <a class="btn btn-success m-r-5 ajax-post confirm" href="#!"
+                                target-form="ids" onclick="qstatus()"><i class="mdi mdi-check"></i> 启用</a>
+                            <a class="btn btn-warning m-r-5" href="#!" onclick="jstatus()"><i class="mdi mdi-block-helper"></i> 禁用</a>
+                            <a class="btn btn-danger" onclick="deletes()" href="#!"><i class="mdi mdi-window-close"></i>
+                                删除</a>
+                        </div>
+
+                        <form class="search-bar ml-md-auto" method="get" action="#!" role="form">
+                            <input type="hidden" name="search_field" id="search-field" value="title" />
+                            <div class="input-group ml-md-auto">
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false" id="search-btn">标题</button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#!" data-field="title">标题</a>
+                                        <a class="dropdown-item" href="#!" data-field="cat_name">栏目</a>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" name="keyword" placeholder="请输入名称">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="check-all">
+                                                <label class="custom-control-label" for="check-all"></label>
+                                            </div>
+                                        </th>
+                                        <th>编号</th>
+                                        <th>卡密</th>
+                                        <th>项目ID</th>
+                                        <th>卡密面值</th>
+                                        <th>添加时间</th>
+                                        <th>状态</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {volist name='list' id='code'}
+                                    <tr>
+                                        <td>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input ids" name="ids[]"
+                                                    value="{$code.id}" id="ids-{$code.id}">
+                                                <label class="custom-control-label" for="ids-{$code.id}"></label>
+                                            </div>
+                                        </td>
+                                        <td>{$code.id}</td>
+                                        <td>{$code.kami}</td>
+                                        <td>{$code.pid}</td>
+                                        <td>{$code.value}</td>
+                                        <td>{$code.time}</td>
+                                        <td>{if $code.status == 'y'}正常{else}禁用{/if}</td>
+                                    </tr>
+                                    {/volist}
+                                </tbody>
+                            </table>
+                        </div>
+                        {$page|raw}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+{include file='public/footer'/}
+
+<script>
+    function deletes() {
+        var id_array = new Array();
+        $("input[name='ids[]']:checked").each(function () {
+            id_array.push($(this).val());
+        });
+        var url = window.location.href;
+        let t = window.jQuery;
+        if (id_array.length <= 0) {
+            showNotify('请选择数据', 'danger');
+            return false;
+        }
+        $("#qstatus").attr("disabled", true).css("pointer-events", "none");
+        console.log(id_array);
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "scode/del",
+            data: {
+                id: id_array
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == 200) {
+                    showNotify(data.msg, 'success');
+                } else {
+                    showNotify(data.msg, 'danger');
+                }
+                // window.setTimeout("window.location='" + url + "'", 1000);
+            }
+        });
+        return false;
+    }
+    function qstatus() {
+        var id_array = new Array();
+        $("input[name='ids[]']:checked").each(function () {
+            id_array.push($(this).val());
+        });
+        var url = window.location.href;
+        let t = window.jQuery;
+        if (id_array.length <= 0) {
+            showNotify('请选择数据', 'danger');
+            return false;
+        }
+        $("#qstatus").attr("disabled", true).css("pointer-events", "none");
+        console.log(id_array);
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "scode/qstatus",
+            data: {
+                id: id_array
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == 200) {
+                    showNotify(data.msg, 'success');
+                } else {
+                    showNotify(data.msg, 'danger');
+                }
+                // window.setTimeout("window.location='" + url + "'", 1000);
+            }
+        });
+        return false;
+    }
+    function jstatus() {
+        var id_array = new Array();
+        $("input[name='ids[]']:checked").each(function () {
+            id_array.push($(this).val());
+        });
+        var url = window.location.href;
+        let t = window.jQuery;
+        if (id_array.length <= 0) {
+            showNotify('请选择数据', 'danger');
+            return false;
+        }
+        $("#qstatus").attr("disabled", true).css("pointer-events", "none");
+        console.log(id_array);
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "scode/jstatus",
+            data: {
+                id: id_array
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == 200) {
+                    showNotify(data.msg, 'success');
+                } else {
+                    showNotify(data.msg, 'danger');
+                }
+                // window.setTimeout("window.location='" + url + "'", 1000);
+            }
+        });
+        return false;
+    }
+</script>

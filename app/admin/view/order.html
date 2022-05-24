@@ -1,0 +1,133 @@
+{include file='public/header'/}
+<main class="lyear-layout-content">
+
+    <div class="container-fluid p-t-15">
+
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <header class="card-header">
+                        <div class="card-title">订单列表</div>
+                    </header>
+                    <div class="card-body">
+
+                        <p></p>
+                        <div id="toolbar" class="toolbar-btn-action">
+                            <button id="btn_delete" type="button" onclick="del()" class="btn btn-danger">
+                                <span class="mdi mdi-window-close" aria-hidden="true"></span>删除
+                            </button>
+                        </div>
+                        <table id="tb_departments"></table>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+</main>
+
+
+{include file='public/footer'/}
+<script type="text/javascript" src="/static/js/jquery-confirm/jquery-confirm.min.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap-table/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript">
+    var $tb_departments = $('#tb_departments');
+    $tb_departments.bootstrapTable({
+        classes: 'table table-bordered table-hover table-striped',
+        url: 'order/list',
+        method: 'get',
+        dataType: 'json',        // 因为本示例中是跨域的调用,所以涉及到ajax都采用jsonp,
+        uniqueId: 'id',
+        idField: 'id',             // 每行的唯一标识字段
+        toolbar: '#toolbar',       // 工具按钮容器
+        clickToSelect: true,     // 是否启用点击选中行
+        showColumns: true,         // 是否显示所有的列
+        showRefresh: true,         // 是否显示刷新按钮
+
+        showToggle: true,        // 是否显示详细视图和列表视图的切换按钮(clickToSelect同时设置为true时点击会报错)
+
+        pagination: true,                    // 是否显示分页
+        sortOrder: "asc",                    // 排序方式
+        queryParams: function (params) {
+            var temp = {
+                limit: params.limit,         // 每页数据量
+                offset: params.offset,       // sql语句起始索引
+                page: (params.offset / params.limit) + 1,
+                sort: params.sort,           // 排序的列名
+                sortOrder: params.order      // 排序方式'asc' 'desc'
+            };
+            return temp;
+        },                                   // 传递参数
+        sidePagination: "server",            // 分页方式：client客户端分页，server服务端分页
+        pageNumber: 1,                       // 初始化加载第一页，默认第一页
+        pageSize: 10,                        // 每页的记录行数
+        pageList: [10, 25, 50, 100],         // 可供选择的每页的行数
+
+        columns: [{
+            field: 'example',
+            checkbox: true    // 是否显示复选框
+        }, {
+            field: 'id',
+            title: 'ID',
+            sortable: true    // 是否排序
+        }, {
+            field: 'uid',
+            title: '用户ID'
+        }, {
+            field: 'money',
+            title: '金额',
+        }, {
+            field: 'time',
+            title: '时间'
+        }, {
+            field: 'order',
+            title: '订单号'
+        }, {
+            field: 'pid',
+            title: '项目ID'
+        }, {
+            field: 'ip',
+            title: 'IP'
+        }],
+        onLoadSuccess: function (data) {
+            $("[data-toggle='tooltip']").tooltip();
+        }
+    });
+
+    function del() {
+        var selRows = $tb_departments.bootstrapTable("getSelections");
+        if (selRows.length == 0) {
+            alert("请至少选择一行");
+            return;
+        }
+        console.log(selRows);
+        var postData = "";
+        $.each(selRows, function (i) {
+            postData += this.id;
+            if (i < selRows.length - 1) {
+                postData += "， ";
+            }
+        });
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "order/del",
+            data: {
+                id: selRows
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == 200) {
+                    showNotify(data.msg, 'success');
+                } else {
+                    showNotify(data.msg, 'danger');
+                }
+            }
+        });
+    }
+</script>

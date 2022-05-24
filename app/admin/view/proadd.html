@@ -1,0 +1,157 @@
+{include file='public/header'/}
+<main class="lyear-layout-content">
+
+    <div class="container-fluid p-t-15">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">添加向导</div>
+                    </div>
+                    <div class="card-body">
+
+                        <form action="#!" class="guide-box" data-navigateable="true">
+                            <ul class="nav nav-step">
+                                <li class="nav-item">
+                                    <span>第一步</span>
+                                    <a class="nav-link active" data-toggle="tab" href="#step-1"></a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <span>第二步</span>
+                                    <a class="nav-link" data-toggle="tab" href="#step-2"></a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <span>第三步</span>
+                                    <a class="nav-link" data-toggle="tab" href="#step-3"></a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <span>确认</span>
+                                    <a class="nav-link" data-toggle="tab" href="#step-4"></a>
+                                </li>
+                            </ul>
+                            <!--对应内容-->
+                            <div class="nav-step-content">
+                                <div class="nav-step-pane d-none active" id="step-1" data-provide="validation">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <label>项目名称</label>
+                                                <input class="form-control" name="name" type="text" id="email" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="nav-step-pane d-none" id="step-2" data-provide="validation">
+                                    <div class="form-group">
+                                        <label>请输入版本</label>
+                                        <input class="form-control" name="version " type="text" id="test" required />
+                                    </div>
+                                </div>
+
+                                <div class="nav-step-pane d-none" id="step-3" data-provide="validation">
+                                    <div class="form-group">
+                                        <label>通信密匙</label>
+                                        <input class="form-control" disabled type="test" value="自动化生成唯一值" id="password"
+                                            required />
+                                    </div>
+                                </div>
+
+                                <div class="nav-step-pane d-none" id="step-4">
+                                    <div class="form-group">
+                                        <label>知悉操作</label>
+                                        <div>
+                                            <a href="">本人已知悉使用规则，确保所用途位合法化，并承担所用出现的风险！</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--End 对应内容-->
+                            <hr>
+                            <div class="d-flex justify-content-between">
+                                <button class="btn btn-secondary disabled" data-wizard="prev" type="button">上一步</button>
+                                <button class="btn btn-secondary" data-wizard="next" type="button">下一步</button>
+                                <button class="btn btn-primary d-none" data-wizard="finish" type="button">完成</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+</main>
+
+
+{include file='public/footer'/}
+
+<script type="text/javascript" src="/static/js/jquery.bootstrap.wizard.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var guideObj = $('.guide-box');
+        var nav_item = guideObj.find('.nav-item');
+        var tab_pane = guideObj.find('.nav-step-pane');
+
+        guideObj.bootstrapWizard({
+            'tabClass': 'nav-step',
+            'nextSelector': '[data-wizard="next"]',
+            'previousSelector': '[data-wizard="prev"]',
+            'finishSelector': '[data-wizard="finish"]',
+            'onTabClick': function (e, t, i) {
+                // data-navigateable='true'允许用户直接点击步骤项，false则只能通过按钮
+                if (!$('.guide-box').is('[data-navigateable="true"]')) {
+                    return false;
+                }
+            },
+            'onTabShow': function (e, t, i) {
+                t.children(":gt(" + i + ").complete").removeClass("complete");
+                t.children(":lt(" + i + "):not(.complete)").addClass("complete");
+            },
+            'onNext': function (tab, navigation, index) {
+                var current_index = guideObj.bootstrapWizard('currentIndex');
+                var curr_tab = tab_pane.eq(current_index);
+
+                var validator_selector = '[data-provide="validation"]';
+                var validator = curr_tab.find(validator_selector).addBack(validator_selector);
+                if (validator.length) {
+                    var forms = validator.find('input, select, textarea');
+                    var validation = true;
+                    forms.each(function () {
+                        if (this.checkValidity() === false) {
+                            guideObj.addClass('was-validated');
+                            validation = false;
+                        } else {
+                            guideObj.removeClass('was-validated');
+                        }
+                    });
+                    if (!validation) {
+                        guideObj.addClass('was-validated');
+                        return false;
+                    }
+                }
+            },
+            'onPrevious': function () {
+            },
+            'onFinish': function (e, t, i) {
+                var nav = nav_item.eq(i);
+                var name = $("input[name='name']").val();//1
+                var version = $("input[name='version']").val();//1
+                $.post("{:url('project/proadds')}", {
+                    name: name,
+                    version: version
+                }, function (res) {
+                    if (res.code == 200) {
+                        showNotify('添加成功~', 'success');
+                    } else {
+                        showNotify(res.msg, 'danger');
+                    }
+                }, 'json')
+            }
+        });
+    });
+</script>

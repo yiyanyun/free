@@ -1,0 +1,82 @@
+<!--
+ * @Author: Lucifer
+ * @Date: 2022-03-23 07:58:09
+ * @LastEditTime: 2022-04-03 10:04:01
+ * @FilePath: \yiyanyun\app\admin\view\system.html
+-->
+
+{include file='public/header'/}
+<!--页面主要内容-->
+<main class="lyear-layout-content">
+
+    <div class="container-fluid p-t-15">
+
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="tab-content">
+                        <div class="tab-pane active">
+                            <form action="#!" method="post" name="edit-form" class="edit-form">
+                                <div class="form-group">
+                                    <label for="web_site_title">网站标题</label>
+                                    <input class="form-control" type="text" id="web_site_title" name="web_site_title"
+                                        value="易验云 - 服务端" placeholder="请输入站点标题">
+                                </div>
+                                <div class="form-group">
+                                    <label for="web_site_copyright">版权信息</label>
+                                    <input class="form-control" type="text" id="web_site_copyright"
+                                        name="web_site_copyright" value="易验云 " placeholder="请输入版权信息">
+                                </div>
+                                <div class="form-group">
+                                    <label for="web_site_icp">备案信息</label>
+                                    <input class="form-control" type="text" id="web_site_icp" name="web_site_icp"
+                                        value="" placeholder="请输入备案信息">
+                                </div>
+                                <div class="form-group">
+                                    <label>站点开关</label>
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="web_site_status"
+                                            checked="">
+                                        <label class="custom-control-label" for="web_site_status"></label>
+                                    </div>
+                                    <small class="help-block">站点关闭后将不能访问，后台可正常登录</small>
+                                </div>
+                                <div class="form-group">
+                                    <button type="button" onclick="Submit()" class="btn btn-outline-info btn-block">确
+                                        定</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+{include file='public/footer'/}
+
+<script>
+    function Submit() {
+        var web_site_title = $("input[name='web_site_title']").val();//1
+        var web_site_copyright = $("input[name='web_site_copyright']").val();//1
+        var web_site_icp = $("input[name='web_site_icp']").val();//1
+        $.post("{:url('Submit')}", {
+            web_site_title: web_site_title,
+            web_site_copyright: web_site_copyright,
+            web_site_icp:web_site_icp
+        }, function (res) {
+            if (res.code == 200) {
+                showNotify('保存成功~', 'success');
+            } else {
+                showNotify(res.msg, 'danger');
+            }
+        }, 'json')
+    }
+</script>

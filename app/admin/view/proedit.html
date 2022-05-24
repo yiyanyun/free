@@ -1,0 +1,253 @@
+{include file='public/header'/}
+<main class="lyear-layout-content">
+
+    <div class="container-fluid p-t-15">
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">项目编辑</div>
+                    </div>
+                    <div class="card-body">
+                        <form class="needs-validation" novalidate>
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="{$key}" disabled>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button">复制</button>
+                                    <button class="btn btn-outline-secondary" onclick="key()" type="button">变更</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="validationTooltip01">项目ID</label>
+                                    <div class="form-group">
+                                        <input type="text" value="{$id}" name="{$id}" class="form-control"
+                                            id="exampleFormControlInput1" placeholder="" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="validationTooltip02">项目名称</label>
+                                    <div class="form-group">
+                                        <input type="text" value="{$name}" name="pro_name" class="form-control"
+                                            id="exampleFormControlInput1" placeholder="请输入项目名称">
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <button type="button" onclick="pro()"
+                                    class="btn btn-outline-yellow btn-block">保存</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card wave wave-animate-slow wave-primary">
+                                    <div class="card-body position-relative">
+                                        <div class="flex-box">
+                                            <span class="img-avatar img-avatar-48 bg-translucent"><i
+                                                    class="mdi mdi-comment-outline fs-22"></i></span>
+                                            <span class="fs-22 lh-22">{$user} 个</span>
+                                        </div>
+                                        <div class="text-right">用户总数</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="card wave wave-animate wave-danger">
+                                    <div class="card-body position-relative">
+                                        <div class="flex-box">
+                                            <span class="img-avatar img-avatar-48 bg-translucent"><i
+                                                    class="mdi mdi-comment-outline fs-22"></i></span>
+                                            <span class="fs-22 lh-22">{$kami} 个</span>
+                                        </div>
+                                        <div class="text-right">卡密总数</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card wave wave-animate-fast wave-info">
+                                    <div class="card-body position-relative">
+                                        <div class="flex-box">
+                                            <span class="img-avatar img-avatar-48 bg-translucent"><i
+                                                    class="mdi mdi-comment-outline fs-22"></i></span>
+                                            <span class="fs-22 lh-22">{$agent} 个</span>
+                                        </div>
+                                        <div class="text-right">代理总数</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">方式控制</div>
+                        <ul class="card-actions">
+                            <div class="col-xs-16">
+                                <div class="custom-control custom-switch custom-dark">
+                                    <input type="checkbox" class="custom-control-input" id="customSwitchDark" {if
+                                        $reg_status=='y' }checked{else}{/if}>
+                                    <label class="custom-control-label" for="customSwitchDark"></label>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">注册控制</label>
+                            <select class="form-control" name="reg_status" id="exampleFormControlSelect1">
+                                <option {if $reg_status=='n'}selected="select"{else}{/if} value="n">关闭注册</option>
+                                <option {if $reg_status=='y'}selected="select"{else}{/if} value="y">启用登录</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">用户登录</label>
+                            <select class="form-control" name="login_status" id="exampleFormControlSelect1">
+                                <option {if $login_status=='n'}selected="select"{else}{/if} value="n">关闭登录</option>
+                                <option {if $login_status=='y'}selected="select"{else}{/if} value="y">启用登录</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">卡密登录</label>
+                            <select class="form-control" name="kami_status" id="exampleFormControlSelect1">
+                                <option {if $kami_status=='n'}selected="select"{else}{/if} value="n">关闭登录</option>
+                                <option {if $kami_status=='y'}selected="select"{else}{/if} value="y">启用登录</option>
+                            </select>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-outline-yellow btn-block" onclick="user()">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">传输控制</div>
+                        <ul class="card-actions">
+                            <div class="col-xs-16">
+                                <div class="custom-control custom-switch custom-danger">
+                                    <input type="checkbox" class="custom-control-input" id="session_status" {if
+                                        $encrypt=='1' }checked{else}{/if}>
+                                    <label class="custom-control-label" for="session_status"></label>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group" id="">
+                            <div class="alert alert-info" role="alert">
+                                如不启用密文传输则数据将以明文方式返回用户存在致命安全隐患<a href="#!" class="alert-link">我不了解?</a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="validationTooltip03">加密类型</label>
+                            <select class="form-control" name="encrypt" id="encrypt" onchange="encode_type(this.value)">
+                                <option {if $encrypt=='0'}selected="select"{else}{/if} value="0">不加密</option>
+                                <option {if $encrypt=='1'}selected="select"{else}{/if} value="1">AES加密</option>
+                                <option {if $encrypt=='2'}selected="select"{else}{/if} value="2">BASE加密</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="encode_type_b">
+                            <label for="validationTooltip03">AES密码(不选AES加密填写无效)</label>
+                            <input type="text" name="aes" class="form-control" id="validationTooltip03"
+                                placeholder="请输入密码" value="" required>
+                        </div>
+                        <div>
+                            <button type="button" onclick="session()"
+                                class="btn btn-outline-yellow btn-block">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</main>
+
+{include file='public/footer'/}
+
+<script>
+    function user() {
+        var id = {$id};//1
+        var reg_status = $("select[name='reg_status']").val();//1
+        var login_status = $("select[name='login_status']").val();//1
+        var kami_status = $("select[name='kami_status']").val();//1
+        $.post("{:url('user')}", {
+            id:id,
+            reg_status:reg_status,
+            login_status:login_status,
+            kami_status:kami_status
+        }, function (res) {
+            if (res.code == 200) {
+                showNotify(res.msg, 'success');
+            } else {
+                showNotify(res.msg, 'danger');
+            }
+        })
+    }
+
+    function session() {
+        var id = {$id};//1
+        var encrypt = $("select[name='encrypt']").val();//1
+        var aes = $("input[name='aes']").val();//1
+        var base = $("input[name='base']").val();//1
+        $.post("{:url('session_submit')}", {
+            id: id,
+            aes: aes,
+            base: base,
+            encrypt: encrypt
+        }, function (res) {
+            if (res.code == 200) {
+                showNotify(res.msg, 'success');
+            } else {
+                showNotify(res.msg, 'danger');
+            }
+        })
+    }
+
+    function pro() {
+        var id = {$id};//1
+        var pro_name = $("input[name='pro_name']").val();//1
+        $.post("{:url('pro_submit')}", {
+            pro_name: pro_name,
+            id: id
+        }, function (res) {
+            if (res.code == 200) {
+                showNotify(res.msg, 'success');
+            } else {
+                showNotify(res.msg, 'danger');
+            }
+        })
+    }
+
+    function key() {
+        var id = {$id};//1
+        $.post("{:url('key')}", {
+            id: id
+        }, function (res) {
+            if (res.code == 200) {
+                showNotify(res.msg, 'success');
+            } else {
+                showNotify(res.msg, 'danger');
+            }
+        })
+    }
+</script>

@@ -1,0 +1,237 @@
+/* 图标动画 */
+.animations-box .badge {
+    position: absolute;
+    top: -10px;
+    left: 12px;
+    box-shadow: 0 0 0 rgba(249, 104, 104, 0.9);
+    animation: pulse-danger 2s infinite;
+}
+.dot {
+    display: block;
+    position: absolute;
+    top: -0.5rem;
+    right: -0.1rem;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #22c03c;
+    cursor: pointer;
+    box-shadow: 0 0 0 rgba(34, 192, 60, 0.9);
+    animation: pulse-success 2s infinite;
+}
+@-webkit-keyframes pulse-success {
+    0% {
+        -webkit-box-shadow: 0 0 0 0 rgba(34, 192, 60, 0.9);
+    }
+    70% {
+        -webkit-box-shadow: 0 0 0 10px rgba(34, 192, 60, 0);
+    }
+    100% {
+        -webkit-box-shadow: 0 0 0 0 rgba(34, 192, 60, 0);
+    }
+}
+@keyframes pulse-success {
+    0% {
+        -moz-box-shadow: 0 0 0 0 rgba(34, 192, 60, 0.9);
+        box-shadow: 0 0 0 0 rgba(34, 192, 60, 0.7);
+    }
+    70% {
+        -moz-box-shadow: 0 0 0 10px rgba(34, 192, 60, 0);
+        box-shadow: 0 0 0 10px rgba(34, 192, 60, 0);
+    }
+    100% {
+        -moz-box-shadow: 0 0 0 0 rgba(34, 192, 60, 0);
+        box-shadow: 0 0 0 0 rgba(34, 192, 60, 0);
+    }
+}
+@-webkit-keyframes pulse-danger {
+    0% {
+        -webkit-box-shadow: 0 0 0 0 rgba(249, 104, 104, 0.9);
+    }
+    70% {
+        -webkit-box-shadow: 0 0 0 10px rgba(249, 104, 104, 0);
+    }
+    100% {
+        -webkit-box-shadow: 0 0 0 0 rgba(249, 104, 104, 0);
+    }
+}
+@keyframes pulse-danger {
+    0% {
+        -moz-box-shadow: 0 0 0 0 rgba(249, 104, 104, 0.9);
+        box-shadow: 0 0 0 0 rgba(249, 104, 104, 0.7);
+    }
+    70% {
+        -moz-box-shadow: 0 0 0 10px rgba(249, 104, 104, 0);
+        box-shadow: 0 0 0 10px rgba(249, 104, 104, 0);
+    }
+    100% {
+        -moz-box-shadow: 0 0 0 0 rgba(249, 104, 104, 0);
+        box-shadow: 0 0 0 0 rgba(249, 104, 104, 0);
+    }
+}
+.bell-animations {
+    display: inline-block;
+    -webkit-animation: ring 4s .7s ease-in-out infinite;
+    -webkit-transform-origin: 50% 4px;
+    -moz-animation: ring 4s .7s ease-in-out infinite;
+    -moz-transform-origin: 50% 4px;
+    animation: ring 4s .7s ease-in-out infinite;
+    transform-origin: 50% 4px;
+}
+@-webkit-keyframes ring {
+    0% { -webkit-transform: rotateZ(0); }
+    1% { -webkit-transform: rotateZ(30deg); }
+    3% { -webkit-transform: rotateZ(-28deg); }
+    5% { -webkit-transform: rotateZ(34deg); }
+    7% { -webkit-transform: rotateZ(-32deg); }
+    9% { -webkit-transform: rotateZ(30deg); }
+    11% { -webkit-transform: rotateZ(-28deg); }
+    13% { -webkit-transform: rotateZ(26deg); }
+    15% { -webkit-transform: rotateZ(-24deg); }
+    17% { -webkit-transform: rotateZ(22deg); }
+    19% { -webkit-transform: rotateZ(-20deg); }
+    21% { -webkit-transform: rotateZ(18deg); }
+    23% { -webkit-transform: rotateZ(-16deg); }
+    25% { -webkit-transform: rotateZ(14deg); }
+    27% { -webkit-transform: rotateZ(-12deg); }
+    29% { -webkit-transform: rotateZ(10deg); }
+    31% { -webkit-transform: rotateZ(-8deg); }
+    33% { -webkit-transform: rotateZ(6deg); }
+    35% { -webkit-transform: rotateZ(-4deg); }
+    37% { -webkit-transform: rotateZ(2deg); }
+    39% { -webkit-transform: rotateZ(-1deg); }
+    41% { -webkit-transform: rotateZ(1deg); }
+    43% { -webkit-transform: rotateZ(0); }
+    100% { -webkit-transform: rotateZ(0); }
+}
+/* 背景动画 */
+.wave {
+    background-color: #f9fafb;
+    overflow: hidden;
+    position: relative;
+}
+.wave > div {
+    z-index: 1;
+}
+.wave:before {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ffffff;
+    z-index: -1;
+}
+.wave:after {
+    content: ' ';
+    width: 1000px;
+    height: 1025px;
+    position: absolute;
+    bottom: 65%;
+    left: -250px;
+    border-radius: 35%;
+    background: white;
+    z-index: 0;
+}
+.wave:after {
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+.wave-animate:after {
+    -webkit-animation: animate-wave 15s infinite linear;
+    animation: animate-wave 15s infinite linear;
+}
+.wave-animate-slower:after {
+    -webkit-animation: animate-wave 30s infinite linear;
+    animation: animate-wave 30s infinite linear;
+}
+.wave-animate-slow:after {
+    -webkit-animation: animate-wave 25s infinite linear;
+    animation: animate-wave 25s infinite linear;
+}
+.wave-animate-fast:after {
+    -webkit-animation: animate-wave 10s infinite linear;
+    animation: animate-wave 10s infinite linear;
+}
+.wave-animate-faster:after {
+    -webkit-animation: animate-wave 5s infinite linear;
+    animation: animate-wave 5s infinite linear;
+}
+.wave.wave-primary {
+    background-color: rgba(51, 202, 187, 0.1) !important;
+}
+.wave.wave-primary .svg-icon svg g [fill] {
+    fill: #33cabb;
+}
+.wave.wave-secondary {
+    background-color: rgba(77, 82, 89, 0.1) !important;
+}
+.wave.wave-secondary .svg-icon svg g [fill] {
+    fill: #4d5259;
+}
+.wave.wave-success {
+    background-color: rgba(21, 195, 119, 0.1) !important;
+}
+.wave.wave-success .svg-icon svg g [fill] {
+    fill: #15c377;
+}
+.wave.wave-info {
+    background-color: rgba(72, 176, 247, 0.1) !important;
+}
+.wave.wave-infos {
+    background-color: rgba(72, 247, 72, 0.1) !important;
+}
+.wave.wave-info .svg-icon svg g [fill] {
+    fill: #48b0f7;
+}
+.wave.wave-warning {
+  background-color: rgba(250, 166, 75, 0.1) !important;
+}
+.wave.wave-warning .svg-icon svg g [fill] {
+    fill: #faa64b;
+}
+.wave.wave-danger {
+    background-color: rgba(249, 104, 104, 0.1) !important;
+}
+.wave.wave-danger .svg-icon svg g [fill] {
+    fill: #f96868;
+}
+.wave.wave-light {
+    background-color: rgba(249, 250, 251, 0.1) !important;
+}
+.wave.wave-light .svg-icon svg g [fill] {
+    fill: #f9fafb;
+}
+.wave.wave-dark {
+    background-color: rgba(70, 81, 97, 0.1) !important;
+}
+.wave.wave-dark .svg-icon svg g [fill] {
+    fill: #465161;
+}
+.wave.wave-white {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+.wave.wave-white .svg-icon svg g [fill] {
+    fill: #ffffff;
+}
+@-webkit-keyframes animate-wave {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes animate-wave {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+

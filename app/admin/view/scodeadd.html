@@ -1,0 +1,130 @@
+{include file="public/header"}
+<main class="lyear-layout-content">
+
+    <div class="container-fluid p-t-15">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">卡密生成</div>
+                    </div>
+                    <div class="card-body">
+                        <form class="needs-validation" novalidate>
+                            <div class="form-row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="validationTooltip01">项目绑定</label>
+                                    <div class="form-group">
+                                        <select class="custom-select" name="project_id" required>
+                                            {volist name="list" id="projectlist"}
+                                            <option value="{$projectlist.id}">{$projectlist.name}</option>
+                                            {/volist}
+                                        </select>
+                                        <div class="invalid-feedback">请选择一项</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="validationTooltip02">卡密类型</label>
+                                    <div class="form-group">
+                                        <select class="custom-select" name="type" required>
+                                            <option value="0">单码</option>
+                                        </select>
+                                        <div class="invalid-feedback">请选择一项</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="validationTooltipUsername">时长</label>
+                                    <div class="form-group">
+                                        <select class="custom-select" name="value" required>
+                                            <option value="1">一天</option>
+                                            <option value="2">三天</option>
+                                            <option value="3">一周</option>
+                                            <option value="4">一月</option>
+                                            <option value="5">一年</option>
+                                            <option value="6">永久</option>
+                                        </select>
+                                        <div class="invalid-feedback">请选择一项</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-3 mb-3">
+                                    <label for="validationTooltip03">数量</label>
+                                    <input type="text" name="trait" class="form-control" id="validationTooltip03"
+                                        placeholder="单次生成不宜超过200" value="1" required>
+                                    <div class="invalid-tooltip">
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="validationTooltip04">长度</label>
+                                    <select class="custom-select" name="kami_lenght" id="validationTooltip04" required>
+                                        <option value="2">18</option>
+                                        <option value="3">32</option>
+                                        <option value="4">40</option>
+                                    </select>
+                                    <div class="invalid-tooltip">
+                                        请选择有效状态。
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="validationTooltip04">特点</label>
+                                    <select class="custom-select" name="tatol" id="validationTooltip04" required>
+                                        <option value="Single">全大写</option>
+                                        <option value="2">全数字</option>
+                                        <option value="3">全混合</option>
+                                    </select>
+                                    <div class="invalid-tooltip">
+                                        请选择有效状态。
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="validationTooltip05" data-toggle="tooltip" data-placement="bottom"
+                                        title="生成后立即激活用户可在到期时间前使用">立即激活？</label>
+                                    <select class="custom-select" id="validationTooltip04" required>
+                                        <option selected disabled value="">待激活</option>
+                                        <option selected disabled value="">立激活</option>
+                                    </select>
+                                    <div class="invalid-tooltip">
+                                        请选择有效状态。
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" id="submit" class="btn btn-outline-purple btn-block"> 生 成 卡 密
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</main>
+{include file="public/footer"}
+<script>
+    $("#submit").on('click', function () {
+        var kami_tatol = $("select[name='tatol']").val();//1
+        var kami_type = $("select[name='type']").val();//1
+        var kami_lenght = $("select[name='kami_lenght']").val();//1
+        var kami_trait = $("input[name='trait']").val();
+        var project_id = $("select[name='project_id']").val();//1
+        var kami_value = $("select[name='value']").val();//1
+        $.post("{:url('add')}", {
+            kami_tatol: kami_tatol,
+            kami_lenght: kami_lenght,
+            kami_trait: kami_trait,
+            kami_value: kami_value,
+            project_id: project_id,
+            kami_type: kami_type
+        }, function (res) {
+            if (res.code == 200) {
+                showNotify('添加成功~', 'success');
+            } else {
+                showNotify(res.msg, 'danger');
+            }
+        }, 'json')
+    })
+</script>

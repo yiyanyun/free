@@ -1,0 +1,108 @@
+{include file='public/header'/}
+<!--页面主要内容-->
+<main class="lyear-layout-content">
+
+    <div class="container-fluid p-t-15">
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="media">
+                            <img src="/static/images/users/avatar.jpg" alt="..." class="img-avatar mr-3">
+                        </div>
+                        <hr>
+                        <form method="" action="#!" class="site-form">
+                            <div class="form-group">
+                                <label for="username">用户名</label>
+                                <input type="text" class="form-control" name="username" id="username" value="{$user}"
+                                    disabled="disabled">
+                            </div>
+                            <div class="form-group">
+                                <label for="nickname">昵称</label>
+                                <input type="text" class="form-control" name="nickname" id="nickname"
+                                    placeholder="输入您的昵称" value="{$nick}">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">邮箱</label>
+                                <input type="email" class="form-control" name="email" id="email"
+                                    aria-describedby="emailHelp" placeholder="请输入正确的邮箱地址" value="{$mail}">
+                                <small id="emailHelp" class="form-text text-muted">请保证您填写的邮箱地址是正确的。</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">密码</label>
+                                <input type="password" class="form-control" name="password" id="password"
+                                    aria-describedby="" placeholder="请输入你将需要修改的密码" value="">
+                            </div>
+                            <div class="form-group">
+                                <label for="remark">简介</label>
+                                <textarea class="form-control" name="remark" id="remark" rows="3"></textarea>
+                            </div>
+                            <button type="button" onclick="save()" class="btn btn-primary">保存</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <ul class="nav nav-pills nav-fill mb-3">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#jinyong-pills-fill"
+                                    aria-selected="true">帅者</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#gulong-pills-fill"
+                                    aria-selected="false">厉者</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" data-toggle="tab" href="#liangyusheng-pills-fill" href="#!">牛者</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#chenqingyun-pills-fill" href="#!">我者</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="jinyong-pills-fill">
+                                <p>未来属于那些相信梦想，并愿意为之付诸行动的人
+                                </p>
+                            </div>
+                            <div class="tab-pane fade" id="gulong-pills-fill">
+                                <p>愿意做别人不愿意做的事，便能达到别人达不成的事
+                                </p>
+                            </div>
+                            <div class="tab-pane fade" id="liangyusheng-pills-fill">
+                                <p>不要只因一次挫败就放弃，你原来决心想要到达的目的
+                                </p>
+                            </div>
+                            <div class="tab-pane fade" id="chenqingyun-pills-fill">
+                                <p>走上坡的时候要对别人好一点，因为你走下坡的时候会碰到他
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End 页面主要内容-->
+    </div>
+</main>
+<!--End 页面主要内容-->
+
+{include file='public/footer'/}
+
+<script>
+    function save() {
+        var password = $("input[name='password']").val();//1
+        $.post("{:url('edit')}", {
+            password: password,
+        }, function (res) {
+            if (res.code == 200) {
+                showNotify('添加成功~', 'success');
+            } else {
+                showNotify(res.msg, 'danger');
+            }
+        }, 'json')
+    }
+</script>

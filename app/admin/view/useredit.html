@@ -1,0 +1,145 @@
+{include file='public/header'/}
+
+<main class="lyear-layout-content">
+
+    <div class="container-fluid p-t-15">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">用户管理</a></li>
+                <li class="breadcrumb-item"><a href="/admin/user">用户列表</a></li>
+                <li class="breadcrumb-item active" aria-current="page">用户编辑</li>
+            </ol>
+        </nav>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="media">
+                            <img src="/static/images/users/avatar.jpg" alt="..." style="width: 100px;" class="img-avatar mr-3">
+                            <div class="media-body">
+                                <p class="mt-1 mb-0">用户ID：{$id}</p>
+                                <p class="mt-1 mb-0">VIP：{$vip}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <form method="" action="#!" class="site-form">
+                            <div class="form-group">
+                                <label for="username">用户名</label>
+                                <input type="text" class="form-control" name="username" id="username" value="{$user}"
+                                    disabled="disabled">
+                            </div>
+                            <div class="form-group">
+                                <label for="nickname">昵称</label>
+                                <input type="text" class="form-control" name="nickname" id="nickname"
+                                    placeholder="未保存有昵称" value="{$nick}">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">邮箱</label>
+                                <input type="email" class="form-control" name="email" id="email"
+                                    aria-describedby="emailHelp" placeholder="请输入正确的邮箱地址" value="{$mail}">
+                            </div>
+                            <div class="form-group">
+                                <label for="remark">简介</label>
+                                <textarea class="form-control" name="remark" placeholder="暂无简介..." id="remark" rows="3" disabled></textarea>
+                            </div>
+                            <button type="button" onclick="user()" class="btn btn-outline-yellow btn-block">保存</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card">
+                    <header class="card-header">
+                        <div class="card-title">用户相关订单</div>
+                    </header>
+                    <div class="card-body">
+                        <table id="tb_departments"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{include file='public/footer'/}
+<script type="text/javascript" src="/static/js/jquery-confirm/jquery-confirm.min.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap-table/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript">
+    $('#tb_departments').bootstrapTable({
+        classes: 'table table-bordered table-hover table-striped',
+        url: 'order?ids='+{$id},
+        method: 'get',
+        dataType : 'json',        // 因为本示例中是跨域的调用,所以涉及到ajax都采用jsonp,
+        uniqueId: 'id',
+        idField: 'id',             // 每行的唯一标识字段
+        toolbar: '#toolbar',       // 工具按钮容器
+        clickToSelect: true,     // 是否启用点击选中行
+        showColumns: true,         // 是否显示所有的列
+        showRefresh: true,         // 是否显示刷新按钮
+        showToggle: true,        // 是否显示详细视图和列表视图的切换按钮(clickToSelect同时设置为true时点击会报错)
+        pagination: true,                    // 是否显示分页
+        sortOrder: "asc",                    // 排序方式
+        queryParams: function(params) {
+            var temp = {
+                limit: params.limit,         // 每页数据量
+                offset: params.offset,       // sql语句起始索引
+                page: (params.offset / params.limit) + 1,
+                sort: params.sort,           // 排序的列名
+                sortOrder: params.order      // 排序方式'asc' 'desc'
+            };
+            return temp;
+        },                                   // 传递参数
+        sidePagination: "server",            // 分页方式：client客户端分页，server服务端分页
+        pageNumber: 1,                       // 初始化加载第一页，默认第一页
+        pageSize: 10,                        // 每页的记录行数
+        pageList: [10, 25, 50, 100],         // 可供选择的每页的行数
+        //search: true,                      // 是否显示表格搜索，此搜索是客户端搜索
+        
+        //showExport: true,        // 是否显示导出按钮, 导出功能需要导出插件支持(tableexport.min.js)
+        //exportDataType: "basic", // 导出数据类型, 'basic':当前页, 'all':所有数据, 'selected':选中的数据
+      
+        columns: [{
+            field: 'example',
+            checkbox: true    // 是否显示复选框
+        }, {
+            field: 'id',
+            title: 'ID',
+            sortable: true    // 是否排序
+        }, {
+            field: 'order',
+            title: '订单号'
+        }, {
+            field: 'time',
+            title: '交易时间',
+        }, {
+            field: 'pid',
+            title: '项目ID'
+        }, {
+            field: 'shop',
+            title: '商品名称'
+        }, {
+            field: 'money',
+            title: '金额'
+        }],
+        onLoadSuccess: function(data){
+            $("[data-toggle='tooltip']").tooltip();
+        }
+    });
+
+    function user() {
+        id = {$id};
+        email = $("#email").val();
+        nickname = $("#nickname").val();
+        $.post("{:url('edit')}", { email: email, nickname: nickname, id:id}, function (res) {
+        if (res.code == 200) {
+            showNotify(res.msg, 'success');
+            setTimeout("location.href='/admin/index'", 3000);
+        } else {
+            showNotify(res.msg, 'danger');
+        }
+        }, 'json')
+    }
+</script>
