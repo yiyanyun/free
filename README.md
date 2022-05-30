@@ -4,6 +4,8 @@ YiYanYun 1.3[重构版]
 
 [官方地址](https://github.com/yiyanyun/free)
 
+[对接文档](https://yiyanyun.tk/index/doc/)
+
 🐧交流反馈上报资源群：195654976
 
 注：此仓库更新仅更新仓库文件【将会覆盖掉整个仓库的文件】，没有特殊情况不会对其他做出更改
