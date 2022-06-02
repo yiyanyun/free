@@ -2,7 +2,7 @@
 /*
  * @Author: Lucifer
  * @Date: 2022-03-13 08:55:15
- * @LastEditTime : 2022-05-24 20:17:01
+ * @LastEditTime : 2022-06-02 12:00:41
  * @FilePath     : \yiyanyun1.2\app\index\controller\Index.php
  */
 declare (strict_types = 1);
@@ -15,8 +15,6 @@ class Index
 {
     public function index(Request $request)
     {
-        $ip = $request->ip();
-        return $ip;
         return view::fetch();
     }
 }
