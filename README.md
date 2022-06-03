@@ -6,7 +6,7 @@ YiYanYun 1.3[重构版]
 
 [对接文档](https://yiyanyun.tk/index/doc/)
 
-[搭建视频](https://yiyanyun.tk/static/mp4/0602.mp4)
+[搭建视频](https://yiyanyun.tk/static/mp4/mp4.zip)
 
 🐧交流反馈上报资源群：195654976
 
