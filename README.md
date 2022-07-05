@@ -2,6 +2,11 @@ YiYanYun 1.3[重构版]
 ===============
 > 运行环境要求PHP8.0，兼容PHP8.1
 
+[已更新版"2022年7月2日11点24分"](https://github.com/yiyanyun/major)
+[已更新版"2022年7月2日11点24分"](https://github.com/yiyanyun/major)
+[已更新版"2022年7月2日11点24分"](https://github.com/yiyanyun/major)
+
+
 [官方地址](https://github.com/yiyanyun/free)
 
 [对接文档](https://yiyanyun.tk/index/doc/)
@@ -13,7 +18,6 @@ YiYanYun 1.3[重构版]
 [资源仓库](https://github.com/yiyanyun/example)
 
 
-[已更新版"2022年7月2日11点24分"](https://github.com/yiyanyun/major)
 
 🐧交流反馈上报资源群：195654976
 
